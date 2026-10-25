@@ -124,7 +124,7 @@ print(book1)
 print(book2.info())"""
 
 
-class Shape:
+"""class Shape:
     def area(self):
         raise NotImplementedError
     def perimeter(self):
@@ -157,4 +157,42 @@ shapes = [
     Rectangle(10, 2),
 ]
 for shape in shapes:
-    print(shape)
+    print(shape)"""
+
+
+class Vector2D:
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+    def __add__(self,other):
+        if not isinstance(other, Vector2D):
+            return NotImplemented
+        return Vector2D(self.x + other.x, self.y + other.y )
+    def __sub__(self,other):
+        if not isinstance(other,Vector2D):
+            return NotImplemented
+        return Vector2D(self.x - other.x , self.y - other.y)
+    def __mul__(self,number):
+        if not isinstance(number, (int , float)):
+            return NotImplemented
+        return Vector2D(self.x * number,self.y * number)
+    def __rmul__(self,number):
+        return self * number
+    def __eq__(self,other):
+        if not isinstance(other,Vector2D):
+            return NotImplemented
+        return (self.x == other.x and self.y == other.y)
+    def __abs__(self):
+        return (self.x**2 + self.y**2)**0.5
+    def __repr__(self):
+        return f"Vector2D({self.x}, {self.y})"
+
+v1 = Vector2D(1, 2)
+v2 = Vector2D(3, 4)
+
+print(v1 + v2)
+print(v1 - v2)
+print(v1 * 2)
+print(2 * v1)
+print(abs(v1))
+print(v1 == Vector2D(1, 2))
