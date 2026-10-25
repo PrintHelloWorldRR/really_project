@@ -88,7 +88,7 @@ print(client1.get_balance())
 print(client1._balance)"""
 
 
-class Vector:
+"""class Vector:
     def __init__(self,x,y):
         self.x = x
         self.y = y
@@ -103,4 +103,58 @@ vector2 = Vector(2,10)
 vector3 = Vector(10,2)
 vector1.__str__()
 print(Vector.__eq__(vector1,vector2))
-print(Vector.__eq__(vector1,vector3))
+print(Vector.__eq__(vector1,vector3))"""
+
+"""class Book:
+    def __init__(self,title,author,pages):
+        self.title = title
+        self.author = author
+        self.pages = pages
+        self.is_read = False
+    def read(self):
+        self.is_read = True
+    def info(self):
+        return f"{self.title} - {self.author},{self.pages} pages, Read - {self.is_read}"
+    def __str__(self):
+        return self.info()
+book1 = Book("War and peace","L.N.Tolstoy",320)
+book2 = Book("Evgeniy Onegin","A.S.Pushkin",220)
+book1.read()
+print(book1)
+print(book2.info())"""
+
+
+class Shape:
+    def area(self):
+        raise NotImplementedError
+    def perimeter(self):
+        raise NotImplementedError
+    def __str__(self):
+        return f"is shape {self.__class__.__name__}, perimeter = {self.perimeter()},area = {self.area()}"
+from math import pi
+class Circle(Shape):
+    def __init__(self,radius):
+        if radius <=0:
+            raise ValueError("Radius should be more zero")
+        self.radius = radius      
+    def area(self):
+        return pi * (self.radius**2)
+    def perimeter(self):
+        return 2 * pi * self.radius
+class Rectangle(Shape):
+    def __init__(self,width,height):
+        if width<=0 or height <=0:
+            raise ValueError("widht and height should be more zero")
+        self.width = width
+        self.height = height
+    def area(self):
+        return self.height*self.width
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+shapes = [
+    Circle(5),
+    Rectangle(3, 4),
+    Rectangle(10, 2),
+]
+for shape in shapes:
+    print(shape)
