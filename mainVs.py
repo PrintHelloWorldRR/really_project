@@ -160,7 +160,7 @@ for shape in shapes:
     print(shape)"""
 
 
-class Vector2D:
+"""class Vector2D:
     def __init__(self,x,y):
         self.x = x
         self.y = y
@@ -195,4 +195,77 @@ print(v1 - v2)
 print(v1 * 2)
 print(2 * v1)
 print(abs(v1))
-print(v1 == Vector2D(1, 2))
+print(v1 == Vector2D(1, 2))"""
+
+class Money:
+    def __init__(self,amount,currency):
+        self.amount = amount
+        self.currency = currency
+    @property
+    def currency(self):
+        return self._currency
+    @currency.setter
+    def currency(self,currency_user):
+        if not self.is_valid_currency(currency_user):
+            raise ValueError("incorrect input! currecncy should have 3 uppercase letters")
+        self._currency = currency_user
+    @staticmethod
+    def is_valid_currency(currency_user):
+        return (isinstance(currency_user , str )) and (len(currency_user) == 3) and (currency_user.isupper())
+    def __repr__(self):
+        return f"Money({self.amount}, '{self.currency}')"
+    def __str__(self):
+        return f"{self.amount} {self.currency}"
+    def __eq__(self,other):
+        if not isinstance(other , Money):
+            return NotImplemented
+        return self.amount == other.amount and self.currency == other.currency
+    def __add__(self,other):
+        if not isinstance(other, Money):
+            return NotImplemented
+        if self.currency != other.currency:
+            raise ValueError("This values different")
+        return Money(self.amount + other.amount , self.currency)
+    def __sub__(self,other):
+        if not isinstance(other, Money):
+            return NotImplemented
+        if self.currency != other.currency:
+            raise ValueError("This values different")
+        return Money(self.amount - other.amount, self.currency)
+    def __mul__(self,factor):
+        if not isinstance(factor , (int,float)):
+            return NotImplemented
+        return Money(self.amount * factor , self.currency)
+    def __len__(self):
+        return len(str(int(abs(self.amount))))
+    @classmethod
+    def from_string(cls,amount_AND_currency_user):
+        amount , currency = amount_AND_currency_user.split()
+        return cls(float(amount) , currency )
+    
+m1 = Money(100, "RUB")
+m2 = Money(50, "RUB")
+m3 = Money(100, "USD")
+
+print(repr(m1))          # Money(100, 'RUB')
+print(str(m1))           # 100 RUB
+print(m1 == Money(100, "RUB"))  # True
+print(m1 == m3)          # False
+print((m1 + m2))         # 150 RUB
+print((m1 - m2))         # 50 RUB
+print((m1 * 2))          # 200 RUB
+print(len(Money(1234.5, "RUB")))  # 4
+
+# 1. Проверка @property и @staticmethod
+try:
+    m = Money(100, "rub")  # маленькие буквы
+except ValueError as e:
+    print("Ошибка поймана:", e) # Ошибка поймана: Неверный формат валюты
+
+# 2. Проверка @classmethod
+m1 = Money.from_string("250 USD")
+print(repr(m1)) # Money(250, 'USD') (или Money(250.0, 'USD'))
+print(m1 + Money(50, "USD")) # 300 USD
+
+m2 = Money(10, "EUR")
+print(m1 == m2) # False
