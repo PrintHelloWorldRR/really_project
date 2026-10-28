@@ -197,7 +197,7 @@ print(2 * v1)
 print(abs(v1))
 print(v1 == Vector2D(1, 2))"""
 
-class Money:
+"""class Money:
     def __init__(self,amount,currency):
         self.amount = amount
         self.currency = currency
@@ -269,3 +269,51 @@ print(m1 + Money(50, "USD")) # 300 USD
 
 m2 = Money(10, "EUR")
 print(m1 == m2) # False
+"""
+from abc import abstractmethod, ABC 
+
+class Employee(ABC):
+    
+    def __init__(self , name , base_salary):
+        self.name = name
+        self.base_salary = base_salary
+    @abstractmethod
+    def calculate_salary(self):
+        pass
+    def __str__(self):
+        return f"Employee: {self.name}, Salary: {self.calculate_salary()}"
+
+class Manager(Employee):
+    def __init__(self, name , base_salary , bonus):
+        super().__init__(name , base_salary)
+        
+        self.bonus = bonus
+    def calculate_salary(self):
+        return self.base_salary + self.bonus
+
+class Developer(Employee):
+    def __init__(self , name , base_salary , language):
+        super().__init__(name , base_salary)
+        self.language = language
+    def calculate_salary(self):
+        if self.language == "Python":
+            return self.base_salary * 1.5
+        return self.base_salary
+try:
+    ob1 = Employee("Ivan" , 50_000)
+except TypeError as e:
+    print(f"Error : {e}")
+maneger1 = Manager("Petya", 70_000, 2_000)
+developer1 = Developer("Misha", 100_000 , "Python")
+developer2 = Developer("Sasha", 80_000 , "Java")
+
+print(maneger1)
+print(developer1)
+print(developer2)
+Employees = [maneger1 , developer1 , developer2]
+
+total_salary = 0
+for emp in Employees:
+    print(emp)
+    total_salary += emp.calculate_salary()
+print(total_salary)
