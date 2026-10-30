@@ -270,7 +270,7 @@ print(m1 + Money(50, "USD")) # 300 USD
 m2 = Money(10, "EUR")
 print(m1 == m2) # False
 """
-from abc import abstractmethod, ABC 
+"""from abc import abstractmethod, ABC 
 
 class Employee(ABC):
     
@@ -316,4 +316,144 @@ total_salary = 0
 for emp in Employees:
     print(emp)
     total_salary += emp.calculate_salary()
-print(total_salary)
+print(total_salary)"""
+
+"""class Vehicle:
+    def __init__(self, brand):
+        self.brand = brand
+    def __str__(self):
+        return f"Brand - {self.brand}"
+
+class Car(Vehicle):
+    def __init__(self , brand , wheels):
+        super().__init__(brand)
+        self.wheels = wheels
+    def __str__(self):
+        return f"{super().__str__()}, quantity wheels - {self.wheels}"
+
+class ElectricCar(Car):
+    def __init__(self, brand , wheels , battery_capacity):
+        super().__init__(brand , wheels)
+        self.battery_capacity = battery_capacity
+    def __str__(self):
+        return f"{super().__str__()}, battery capacity - {self.battery_capacity}"
+
+car_1 = ElectricCar("Tesla", 4, 100)
+print(car_1)"""
+
+"""class LogMixin:
+    def log(self , message):
+        print(f"[LOG]: {message}")
+
+class User:
+    def __init__(self, name , email):
+        self.name = name
+        self.email = email
+
+class AdminUser(User , LogMixin):
+    def ban_user(self, target_user_name):
+        self.log(f"User {target_user_name} was banned by {self.name}")
+
+admin = AdminUser("Ivan", "ivan@mail.ru")
+admin.ban_user("Petr")"""
+
+"""from dataclasses import dataclass
+
+@dataclass
+class Product:
+    name : str
+    _price : float
+
+    @property
+    def price(self):
+        return self._price
+    @price.setter
+    def price(self , value):
+        if value < 0:
+            raise ValueError("We can't change your balance , because amount should be more zero ")
+        self._price = value
+
+    @property
+    def price_with_tax(self):
+        return self._price * 1.2
+
+# Проверка
+p = Product("Ноутбук", 1000)
+print(p) # Автоматически сгенерированный dataclass __repr__: Product(name='Ноутбук', _price=1000)
+print(f"Цена с налогом: {p.price_with_tax}") # 1200.0
+
+try:
+    p.price = -50
+except ValueError as e:
+    print("Ошибка:", e)""" # Ошибка: Цена не может быть отрицательной!
+
+"""from dataclasses import dataclass
+
+@dataclass
+class UserProfile:
+    username : str
+    _age : int
+    @property
+    def age(self):
+        return self._age
+    @age.setter
+    def age(self , value ):
+        if value < 0 or value > 150:
+            raise ValueError("Unacceptable age!")
+        self._age = value
+    @property
+    def is_adult(self):
+        return self._age >= 18"""
+
+"""from dataclasses import dataclass
+
+@dataclass
+class PlayerStats:
+    name : str
+    _health : int = 100
+    _mana : int = 50
+
+    @property
+    def health(self):
+        return self._health
+    @health.setter
+    def health(self , value):
+        if value < 0 or value > 100:
+            raise ValueError("Meaning should be greater than zero and less than 100")
+        self._health = value
+
+    @property
+    def mana(self):
+        return self._mana
+    @mana.setter
+    def mana(self , value):
+        if value < 0 or value > 100:
+            raise ValueError("Meaning should be greater than zero and less than 100")
+        self._mana = value
+
+    @property
+    def is_alive(self):
+        return self._health > 0
+
+    def __post_init__(self):
+        if self._health < 0 or self._health > 100:
+            raise ValueError("Health should be between 0 and 100")
+        if self._mana < 0 or self._mana > 100:
+            raise ValueError("Mana hould be between 0 and 100")"""
+
+
+class Duck:
+    def quack(self):
+        return f"kria-kria"
+
+class Person:
+    def quack(self):
+        return f"I am a human , but i quacking!"
+def make_it_quack(duck_like_object):
+    print(duck_like_object.quack())
+
+d = Duck()
+p = Person()
+
+make_it_quack(d) # Кря-кря!
+make_it_quack(p) # Я человек, но крякаю!
