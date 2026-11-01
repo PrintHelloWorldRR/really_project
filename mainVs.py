@@ -442,7 +442,7 @@ class PlayerStats:
             raise ValueError("Mana hould be between 0 and 100")"""
 
 
-class Duck:
+"""class Duck:
     def quack(self):
         return f"kria-kria"
 
@@ -456,4 +456,51 @@ d = Duck()
 p = Person()
 
 make_it_quack(d) # Кря-кря!
-make_it_quack(p) # Я человек, но крякаю!
+make_it_quack(p)""" # Я человек, но крякаю!
+
+"""class Car:
+    __slots__ = ('brand', 'model')
+
+    def __init__(self, brand , model):
+        self.brand = brand
+        self.model = model
+    def __str__(self):
+        return f"brand - {self.brand} , model - {self.model}"
+    
+my_car = Car("Toyota", "Camry")
+print(my_car)
+try:
+    my_car.color = "red"
+except Exception as e:
+    print(f"Error : {e}")"""
+
+class Playlist:
+    def __init__(self):
+        self._songs = []
+    def add_song(self , song):
+        self._songs.append(song)
+    def __len__(self):
+        return len(self._songs)
+    def __getitem__(self, index):
+        return self._songs[index]
+    def __iter__(self):
+        return iter(self._songs)
+
+# --- Проверка ---
+my_music = Playlist()
+my_music.add_song("Bohemian Rhapsody")
+my_music.add_song("Hotel California")
+my_music.add_song("Stairway to Heaven")
+
+# Проверка __len__
+print(f"Всего песен: {len(my_music)}") # Выведет: 3
+
+# Проверка __getitem__
+print(f"Вторая песня: {my_music[1]}") # Выведет: Hotel California
+
+# Проверка __iter__
+print("Список воспроизведения:")
+for song in my_music:
+    print(f" - {song}")
+
+        
