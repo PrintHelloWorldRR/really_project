@@ -474,7 +474,7 @@ try:
 except Exception as e:
     print(f"Error : {e}")"""
 
-class Playlist:
+"""class Playlist:
     def __init__(self):
         self._songs = []
     def add_song(self , song):
@@ -501,6 +501,84 @@ print(f"Вторая песня: {my_music[1]}") # Выведет: Hotel Califor
 # Проверка __iter__
 print("Список воспроизведения:")
 for song in my_music:
-    print(f" - {song}")
+    print(f" - {song}")"""
 
-        
+"""with open("doc_python.txt" , "r" , encoding = "utf-8") as f:
+    text = f.read()
+    print(text)"""
+
+"""class DatabaseConnection:
+    def __init__(self , db_name):
+        self.db_name = db_name
+    def __enter__(self):
+        print(f"[DB] connect to the {self.db_name}")
+        return self
+    def __exit__(self , exc_type , exc_value , traceback):
+        if exc_type != None: 
+            print(f"[DB] Error! transaction rollback.")
+        print(f"[DB] disconnect from {self.db_name}")
+        return False
+#1 without errors
+with DatabaseConnection("ShopDB") as db:
+    pass
+
+#2 with error
+try:
+    with DatabaseConnection("ShopDB") as ab:
+        error = 10/0
+except ZeroDivisionError as e:
+    print(f"Error! - {e}")   
+
+with open('dsds.txt' , 'w' , 'utf-8'):
+    pass #23"""
+
+"""with open("diary.txt" , mode = 'w' , encoding = 'utf-8') as f:
+    f.write("day 1: Learned files\n")
+    f.write("day 2: Learned JSON\n")
+    f.write("day 3: Learned CSV\n")
+
+with open("diary.txt" , mode = 'a' , encoding = 'utf-8') as f:
+    f.write("day 4: Relaxing\n")
+
+with open("diary.txt" , mode = 'r' , encoding = 'utf-8') as f:
+    for line in f:
+        print(line.strip())"""
+
+"""import json
+player = {
+    'name' : "Ivan",
+    'level' : 5,
+    'inventory' : ['swoard' , 'shield']
+}
+
+with open('save.json' , 'w' , encoding = 'utf-8') as f:
+    json.dump(player, f , indent = 2 , ensure_ascii = False)
+
+print('game was saved')
+
+with open('save.json' , 'r' , encoding = 'utf-8') as f:
+    loaded_player = json.load(f)
+    
+
+print(f'level - {loaded_player['level']}')
+print(f'inventory - {', '.join(loaded_player['inventory'])}')"""
+
+
+import csv
+product = [
+    {'name' : 'Laptop' , 'price' : 50_000 , 'amount' : 10},
+    {'name' : 'Gaming computer' , 'price' : 100_000 , 'amount' : 20},
+    {'name' : 'Iphone' , 'price' : 150_000 , 'amount' : 5}
+]
+
+with open('warehouse.csv' ,'w' , newline = '',encoding = 'utf-8') as f:
+    names_title = ['name' , 'price' , 'amount']
+    file_for_csv = csv.DictWriter(f , fieldnames = names_title)
+    file_for_csv.writeheader()
+    file_for_csv.writerows(product)
+
+with open('warehouse.csv' , 'r' , encoding = 'utf-8' ) as f:
+    read_file = csv.DictReader(f)
+    for row in read_file:
+        print(f'product - {row['name']}  price on warehouse - {int(row['price']) * int(row['amount'])}')
+
