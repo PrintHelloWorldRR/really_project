@@ -564,7 +564,7 @@ print(f'level - {loaded_player['level']}')
 print(f'inventory - {', '.join(loaded_player['inventory'])}')"""
 
 
-import csv
+"""import csv
 product = [
     {'name' : 'Laptop' , 'price' : 50_000 , 'amount' : 10},
     {'name' : 'Gaming computer' , 'price' : 100_000 , 'amount' : 20},
@@ -580,5 +580,116 @@ with open('warehouse.csv' ,'w' , newline = '',encoding = 'utf-8') as f:
 with open('warehouse.csv' , 'r' , encoding = 'utf-8' ) as f:
     read_file = csv.DictReader(f)
     for row in read_file:
-        print(f'product - {row['name']}  price on warehouse - {int(row['price']) * int(row['amount'])}')
+        print(f'product - {row['name']}  price on warehouse - {int(row['price']) * int(row['amount'])}')"""
 
+"""def easy_gen():
+    print('Step 1')
+    yield 1
+
+    print('Step 2')
+    yield 2
+
+    print('Step 3')
+    yield 3
+
+neg = easy_gen()
+
+print(next(neg))
+print(next(neg))"""
+
+"""def countdown(n):
+    while n > 0:
+        yield n
+        n -= 1
+for number in countdown(4):
+    print(number)"""
+
+"""def read_file_lines(filepath):
+    with open(filepath , 'r' , encoding = 'utf-8') as f:
+        for line in f:
+            yield line.strip()
+
+try:
+    for line in read_file_lines('diary.txt'):
+        print(f'Read - {line}')
+except Exception as e:
+    print(e)"""
+
+"""def fibonacci():
+    a = 0
+    b = 1
+    while True:
+        yield a
+        a,b = b, a+b
+amount_iteration = 0
+for number in fibonacci():
+    print(number , end = "---")
+    amount_iteration += 1
+    if amount_iteration >= 10:
+        break"""
+"""def number_generator(limit):
+    n = 1
+    while n != limit:
+        yield n
+        n += 1
+
+def even_filter(numbers):
+    for num in numbers:
+        if num % 2 == 0:
+            yield num
+
+for num in even_filter(number_generator(10)):
+    print(num , end = ', ')"""
+
+"""def chunk_generator(data, chunk_size):
+    for i in range(0, len(data) , chunk_size):
+        yield data[i : i + chunk_size]
+
+for chunk in chunk_generator([1,2,3,4,5] , 2):
+    print(chunk , end = '  ')"""
+
+"""def infinite_cycle(items):
+    while True:
+        for item in items:
+            yield item
+
+my_list = ['red' , 'green' , 'blue']
+iteration = 0
+for iteration , i in enumerate(infinite_cycle(my_list), start = 1):
+    print(i , end = ' ' )
+    if iteration == 7:
+        break"""
+
+import json
+import random
+from dataclasses import dataclass , asdict
+@dataclass
+class Player:
+    name : str
+    score : int
+    def __str__(self):
+        return f'name - {self.name} , score - {self.score} '
+
+def generate_players(count):
+    for i in range(count):
+        player_name = f'PLAYER_{i + 1}'
+        random_score = random.randint(1,100)
+        player = Player(name = player_name, score = random_score)
+        yield player
+
+players_list = [ ]
+for player in generate_players(5):
+    print(player)
+    players_list.append(player)
+
+players_data = [asdict(player) for player in players_list]
+
+with open('players.json' , 'w' , encoding = 'utf-8') as f:
+    json.dump(players_data , f , ensure_ascii = False , indent = 2)
+    print('Players were saved!')
+
+with open('players.json' , 'r' , encoding = 'utf-8') as f:
+    loaded_data = json.load(f)
+
+for data in loaded_data:
+    print(data['name'] , data['score'])
