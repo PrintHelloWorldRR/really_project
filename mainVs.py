@@ -660,7 +660,7 @@ for iteration , i in enumerate(infinite_cycle(my_list), start = 1):
     if iteration == 7:
         break"""
 
-import json
+"""import json
 import random
 from dataclasses import dataclass , asdict
 @dataclass
@@ -692,4 +692,117 @@ with open('players.json' , 'r' , encoding = 'utf-8') as f:
     loaded_data = json.load(f)
 
 for data in loaded_data:
-    print(data['name'] , data['score'])
+    print(data['name'] , data['score'])"""
+
+"""import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args,**kwargs)
+        end = time.time()
+        print(f'Execution time - {end - start:.4f}')
+        return result
+    return wrapper
+
+@timer
+def sum_from_1_to_100000():
+    sum_num = 0
+    for i in range(1,1_000_000+1):
+        sum_num += i
+    return sum_num
+
+print(sum_from_1_to_100000())"""
+
+"""import functools
+def repeat(times):
+    def my_decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            for _ in range(times):
+                result = func(*args, **kwargs)
+            return result
+        return wrapper
+    return my_decorator
+
+@repeat(3)
+def yra():
+    print("YRA!")
+yra()"""
+
+"""import functools
+
+def debug(func):
+    @functools.wraps(func)
+    def wrapper(*args , **kwargs):
+        print(f'Call function : {func.__name__ } with argumets : {args} , {kwargs}')
+        result = func(*args, **kwargs)
+        print(result)
+        return result
+    return wrapper
+@debug
+def add(a,b):
+    return a + b
+add(3,2)
+
+print(f"Имя функции: {add.__name__}")"""
+
+"""class InsufficientFundsError(Exception):
+    def __init__(self, balance , amount):
+        super().__init__(f'Not enough funds! Balace: {balance} , need: {amount}')
+        self.balance = balance
+        self.amount = amount
+
+class BankAccount:
+    def __init__(self , owner , balance):
+        self.owner = owner
+        self.balance = balance
+    def withdraw(self , amount):
+        if amount > self.balance:
+            raise InsufficientFundsError(self.balance , amount)
+        self.balance -= amount
+        return f'Succesfully withdraw {amount}'
+
+account = BankAccount("Ivan" , 100)
+print(account.withdraw(50))
+
+try:
+    w = account.withdraw(200)
+except InsufficientFundsError as e:
+    print(e)"""
+
+import sqlite3
+
+conn = sqlite3.connect('school.db')
+cursor = conn.cursor()
+cursor.execute("CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY , name TEXT , age INTEGER)")
+conn.commit()
+
+def add_student(name, age):
+    cursor.execute("INSERT INTO students (name, age) VALUES (? , ?)" , (name , age))
+    conn.commit()
+
+add_student("Иван", 20)
+add_student("Мария", 21)
+add_student("Алексей", 19)
+
+
+cursor.execute("SELECT * FROM students")
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+
+cursor.execute("""
+    UPDATE students 
+    SET age = 21 
+    WHERE name = 'Иван'
+""")
+cursor.execute("DELETE FROM students WHERE id = 3")
+conn.commit()
+
+#cursor.execute("SELECT * FROM students ORDER BY age DESC")
+#cursor.execute("SELECT * FROM students ORDER BY age")
+#cursor.execute("SELECT * FROM students ORDER BY age ASC LIMIT 2")
+#cursor.execute("SELECT * FROM students WHERE city = 'Москва' AND age > 18")
+#cursor.execute("SELECT COUNT(*) FROM students")
+#cursor.execute("UPDATE * FROM students SET age = age + 1 WHERE city = 'Казань' ")
