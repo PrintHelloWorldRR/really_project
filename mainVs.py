@@ -771,7 +771,7 @@ try:
 except InsufficientFundsError as e:
     print(e)"""
 
-import sqlite3
+"""import sqlite3
 
 conn = sqlite3.connect('school.db')
 cursor = conn.cursor()
@@ -790,15 +790,16 @@ add_student("Алексей", 19)
 cursor.execute("SELECT * FROM students")
 rows = cursor.fetchall()
 for row in rows:
-    print(row)
+    print(row)"""
 
-cursor.execute("""
-    UPDATE students 
-    SET age = 21 
-    WHERE name = 'Иван'
-""")
-cursor.execute("DELETE FROM students WHERE id = 3")
-conn.commit()
+#cursor.execute("""
+#   UPDATE students 
+#   SET age = 21 
+#    WHERE name = 'Иван'
+#""")
+#cursor.execute("DELETE FROM students WHERE id = 3")
+#conn.commit()
+
 
 #cursor.execute("SELECT * FROM students ORDER BY age DESC")
 #cursor.execute("SELECT * FROM students ORDER BY age")
@@ -806,3 +807,82 @@ conn.commit()
 #cursor.execute("SELECT * FROM students WHERE city = 'Москва' AND age > 18")
 #cursor.execute("SELECT COUNT(*) FROM students")
 #cursor.execute("UPDATE * FROM students SET age = age + 1 WHERE city = 'Казань' ")
+"""from dataclasses import dataclass
+import sqlite3
+@dataclass
+class expense:
+    category : str
+    amount : float
+    description : str
+
+class ExpenseTracker:
+    def __init__(self):
+        self.conn = sqlite3.connect('finance.db')
+        self.cursor = self.conn.cursor()
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS expenses (id INTEGER PRIMARY KEY , category TEXT , amount REAL , description TEXT)")
+        self.conn.commit()
+
+    def add_expense(self , expense: expense):
+        self.cursor.execute("INSERT INTO expenses (category , amount , description) VALUES (? , ? , ?)" , (expense.category , expense.amount , expense.description))
+        self.conn.commit()
+    def close(self):
+        self.conn.close()
+    def get_stats(self):
+        self.cursor.execute("SELECT category, SUM(amount) FROM expenses GROUP BY category")
+        for row in self.cursor.fetchall():
+            yield str(row[0]) , float(row[1])
+
+tracker = ExpenseTracker()
+
+tracker.add_expense(expense("Vehicle" , 500 , "Underground"))
+tracker.add_expense(expense("Food" , 400 , "Burger_king"))
+tracker.add_expense(expense("Vehicle" , 200 , "Underground"))
+
+for i in tracker.get_stats():
+    print(i)
+
+tracker.close()"""
+
+import sqlite3
+
+from dataclasses import dataclass
+class TaskNotFoundError(Exception):
+    pass
+
+@dataclass
+class Task:
+    title : str
+
+class TaskManager:
+    def __init__(self):
+        self.conn = sqlite3.connect('todo.db')
+        self.cursor = self.conn.cursor()
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT , title TEXT , is_done NTEGER DEFAULT 0)")
+        self.conn.commit()
+    def add_task(self , task : Task):
+        self.cursor.execute("INSERT INTO tasks (title) VALUES (?)" , (task.title,))
+        self.conn.commit()
+        print(f'Task {task.title} was added')
+    def complete_task(self , task_id : int):
+        self.cursor.execute("UPDATE tasks SET is_done = 1 WHERE id = ?" , (task_id,))
+        if self.cursor.rowcount == 0:
+            raise TaskNotFoundError(f'Task with id {task_id} not founded')
+        self.conn.commit()
+        print(f'Task with id {task_id} was completed')
+    def get_pending_tasks(self):
+        self.cursor.execute("SELECT id , title FROM tasks WHERE is_done = 0")
+        for id,title in self.cursor.fetchall():
+            yield id , title
+
+manager = TaskManager()
+manager.add_task(Task("Buy bread"))
+manager.add_task(Task("Learn SQL"))
+for row in manager.get_pending_tasks():
+    print(row)
+manager.complete_task(1)
+for row in manager.get_pending_tasks():
+    print(row)
+try:
+    manager.complete_task(99)
+except TaskNotFoundError as e:
+    print(e)
