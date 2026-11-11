@@ -843,7 +843,7 @@ for i in tracker.get_stats():
 
 tracker.close()"""
 
-import sqlite3
+"""import sqlite3
 
 from dataclasses import dataclass
 class TaskNotFoundError(Exception):
@@ -885,4 +885,46 @@ for row in manager.get_pending_tasks():
 try:
     manager.complete_task(99)
 except TaskNotFoundError as e:
-    print(e)
+    print(e)"""
+
+import sqlite3
+
+conn = sqlite3.connect('movies.db')
+cursor = conn.cursor()
+
+cursor.execute("DROP TABLE IF EXISTS movies") # Очищаем старую таблицу, если есть
+cursor.execute("""
+    CREATE TABLE movies (
+        id INTEGER PRIMARY KEY,
+        title TEXT,
+        genre TEXT,
+        rating REAL,
+        release_year INTEGER
+    )
+""")
+
+# Данные для теста
+movies = [
+    ("Star Wars", "Sci-Fi", 8.6, 1977),
+    ("Star Trek", "Sci-Fi", 8.4, 2009),
+    ("The Godfather", "Drama", 9.2, 1972),
+    ("Pulp Fiction", "Crime", 8.9, 1994),
+    ("Inception", "Sci-Fi", 8.8, 2010),
+    ("The Dark Knight", "Action", 9.0, 2008),
+    ("Interstellar", "Sci-Fi", 8.7, 2014),
+    ("Fight Club", "Drama", 8.8, 1999)
+]
+
+cursor.executemany("INSERT INTO movies (title, genre, rating, release_year) VALUES (?, ?, ?, ?)", movies)
+conn.commit()
+print("База данных фильмов создана!")
+for row in cursor.execute("SELECT * FROM movies WHERE title LIKE '%Star%'"):
+    print(f"Films where title has word Star - {row}")
+for row in cursor.execute("SELECT * FROM movies WHERE rating BETWEEN 8.5 AND 9.0"):
+    print(f'Films with rating 8.5-9 - {row}')
+print(*cursor.execute("SELECT AVG(rating) AS avg_rating FROM movies").fetchall())
+for row in cursor.execute("SELECT genre, MAX(rating) , MIN(rating) FROM movies GROUP BY genre"):
+    print(row)
+for row in cursor.execute("SELECT title, release_year FROM movies ORDER BY release_year DESC LIMIT 3"):
+    print(row)
+  
