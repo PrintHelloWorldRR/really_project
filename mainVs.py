@@ -887,22 +887,22 @@ try:
 except TaskNotFoundError as e:
     print(e)"""
 
-import sqlite3
+"""import sqlite3
 
 conn = sqlite3.connect('movies.db')
 cursor = conn.cursor()
-
-cursor.execute("DROP TABLE IF EXISTS movies") # Очищаем старую таблицу, если есть
-cursor.execute("""
-    CREATE TABLE movies (
-        id INTEGER PRIMARY KEY,
-        title TEXT,
-        genre TEXT,
-        rating REAL,
-        release_year INTEGER
-    )
-""")
-
+"""
+#cursor.execute("DROP TABLE IF EXISTS movies") # Очищаем старую таблицу, если есть
+#cursor.execute("""
+#    CREATE TABLE movies (
+#        id INTEGER PRIMARY KEY,
+#        title TEXT,
+#        genre TEXT,
+#        rating REAL,
+#        release_year INTEGER
+#    )
+#""")
+"""
 # Данные для теста
 movies = [
     ("Star Wars", "Sci-Fi", 8.6, 1977),
@@ -926,5 +926,77 @@ print(*cursor.execute("SELECT AVG(rating) AS avg_rating FROM movies").fetchall()
 for row in cursor.execute("SELECT genre, MAX(rating) , MIN(rating) FROM movies GROUP BY genre"):
     print(row)
 for row in cursor.execute("SELECT title, release_year FROM movies ORDER BY release_year DESC LIMIT 3"):
-    print(row)
-  
+    print(row)"""
+
+
+import numpy as np
+"""array_numpy = np.arange(1 , 11)
+print(f'array - {array_numpy}')
+print(f'shape - {array_numpy.shape}')
+print(f'type - {array_numpy.dtype}')
+print(f'size - {array_numpy.size}')
+matrix = array_numpy.reshape(2,5)
+print('matrix :')
+print(matrix)
+
+scores = np.array([45, 80, 55, 90, 70, 30, 100])
+print(f'Scores - {scores}')
+scores += 10
+print(scores)
+print(scores.mean())
+passed = scores[scores >= 60]
+print(f'Good scores - {passed}')
+
+sales = np.array([
+    [10, 20, 15],  # День 1
+    [5,  15, 10],  # День 2
+    [20, 30, 25]   # День 3
+])
+print(sales.sum())
+print(sales.sum(axis = 1))
+print(sales.sum(axis = 0))"""
+
+"""matrix = np.arange(16).reshape(4,4)
+print(f"Second column - {matrix[: , 1]}")
+print(f"Third row - {matrix[2,:]}")
+print("Middle square:")
+print(matrix[1:3 , 1:3])"""
+
+"""sales = np.array([
+    [10, 20, 30, 40],  # Магазин 1
+    [5,  15, 25, 35],  # Магазин 2
+    [20, 10, 5,  50]   # Магазин 3
+])
+bonuses = np.array([100 , 200 , 300])
+bonuses = bonuses.reshape(3,1)
+print(bonuses)
+print(f"Sum sales and bonuses = {sales + bonuses}")
+print("-----------------------")
+print(sales)
+coeffs = np.array([0.9, 0.8, 0.95, 1.0])
+
+print(sales * coeffs)"""
+
+"""arr = np.arange(21)
+print(arr[(arr >5) & (arr < 15)])
+print(arr[ (arr < 3) | (arr > 18)])
+print(arr[arr % 2 == 0])"""
+
+"""monday = np.array([10, 20, 30])
+tuesday = np.array([40, 50, 60])
+arr = np.concatenate((monday , tuesday))
+matrix = np.vstack((monday , tuesday))
+print(matrix)
+matrix = np.vstack((matrix , [70, 80, 90]))
+print(matrix)"""
+
+"""data = np.array([[1, 2, 3], [4, 5, 6]])
+np.savetxt('my_data.csv', data , delimiter=";")
+del(data)
+data1 = np.loadtxt('my_data.csv' , delimiter=';')
+print(data1)"""
+
+A = np.array([[2, 1], [1, 3]])
+B = np.array([10, 15])
+X = np.linalg.solve(A,B)
+print(X)
