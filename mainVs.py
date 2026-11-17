@@ -996,7 +996,50 @@ del(data)
 data1 = np.loadtxt('my_data.csv' , delimiter=';')
 print(data1)"""
 
-A = np.array([[2, 1], [1, 3]])
+"""A = np.array([[2, 1], [1, 3]])
 B = np.array([10, 15])
 X = np.linalg.solve(A,B)
-print(X)
+print(X)"""
+
+"""np.random.seed(100)
+arr = np.random.randint(1 , 7 , size = 10)
+print(len(arr[arr==6]))
+
+names = np.array(["Alice", "Bob", "Charlie", "Diana", "Eve"])
+scores = np.array([500, 800, 300, 950, 600])
+print(names[np.argmax(scores)] , scores[np.argmax(scores)])
+print(names[np.argsort(scores)[::-1]])
+
+temps = np.array([22.5, 23.1, np.nan, 24.0, np.nan, 22.8])
+print(temps.mean())
+print(np.nanmean(temps))
+print(np.nan_to_num(temps))"""
+
+# Данные о продажах (4 магазина x 5 товаров). 
+# Заполнены случайными числами, но есть пропуски (NaN).
+np.random.seed(42)
+sales = np.random.randint(10, 100, size=(4, 5)).astype(float)
+sales[1, 2] = np.nan  # Сломался датчик во 2-м магазине, 3-й товар
+sales[3, 0] = np.nan  # Сломался датчик в 4-м магазине, 1-й товар
+
+# Цены на товары (5 штук)
+prices = np.array([100, 250, 50, 300, 150])
+
+clean_sales = np.nan_to_num(sales)
+print(clean_sales.sum())
+store_sales = clean_sales.sum(axis = 1)
+print(store_sales)
+print(clean_sales.sum(axis = 0))
+print(np.argmax(store_sales) + 1)
+#1 way, i tried to optimize the code , but i can't
+"""print("_______")
+list_shop = []
+for shop in clean_sales:
+    print(shop)
+    temp = sum(shop) 
+    if temp> 200:
+        list_shop.append(temp)
+print(list_shop)"""
+#2 way, it is more correct
+print(store_sales[store_sales > 200])
+print(clean_sales * prices)
