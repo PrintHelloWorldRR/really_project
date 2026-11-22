@@ -929,7 +929,7 @@ for row in cursor.execute("SELECT title, release_year FROM movies ORDER BY relea
     print(row)"""
 
 
-import numpy as np
+#import numpy as np
 """array_numpy = np.arange(1 , 11)
 print(f'array - {array_numpy}')
 print(f'shape - {array_numpy.shape}')
@@ -1015,7 +1015,7 @@ print(temps.mean())
 print(np.nanmean(temps))
 print(np.nan_to_num(temps))"""
 
-# Данные о продажах (4 магазина x 5 товаров). 
+"""# Данные о продажах (4 магазина x 5 товаров). 
 # Заполнены случайными числами, но есть пропуски (NaN).
 np.random.seed(42)
 sales = np.random.randint(10, 100, size=(4, 5)).astype(float)
@@ -1032,14 +1032,64 @@ print(store_sales)
 print(clean_sales.sum(axis = 0))
 print(np.argmax(store_sales) + 1)
 #1 way, i tried to optimize the code , but i can't
-"""print("_______")
+""""""print("_______")
 list_shop = []
 for shop in clean_sales:
     print(shop)
     temp = sum(shop) 
     if temp> 200:
         list_shop.append(temp)
-print(list_shop)"""
+print(list_shop)
 #2 way, it is more correct
 print(store_sales[store_sales > 200])
-print(clean_sales * prices)
+print(clean_sales * prices)"""
+
+"""import numpy as np
+
+np.random.seed(2023) # Чтобы данные были одинаковыми
+
+# 5 игроков, 4 матча. 
+# Случайные очки от 10 до 50.
+scores = np.random.randint(10, 50, size=(5, 4)).astype(float)
+
+# Симулируем потерю данных (дисконнекты)
+scores[0, 1] = np.nan  # Игрок 0 пропустил 2-й матч
+scores[2, 3] = np.nan  # Игрок 2 пропустил 4-й матч
+
+# Имена игроков
+players = np.array(["Shadow", "Viper", "Ghost", "Reaper", "Frost"])
+
+# Коэффициенты важности матчей (1-й - обычный, 4-й - финал)
+weights = np.array([1.0, 1.2, 1.5, 2.0])
+
+print("Очки игроков (с пропусками):\n", scores)
+print("Имена:", players)"""
+
+import pandas as pd
+#1
+students = {
+    'name': ['Ivan' , 'Misha' , 'Vova'],
+    'age': [25 , 20 , 32],
+    'grade': [5 , 4 , 3]
+}
+df = pd.DataFrame(students)
+print(df)
+#2
+df_new = pd.DataFrame(df)
+df_new.index = ['student_1', 'student_2', 'student_3']
+print(df_new)
+#3
+print(df_new.columns)
+print(df_new.index)
+print(df_new.values)
+print(df_new.head(2))
+print(df_new.tail(2))
+#4
+employees = [
+    ['Ivan' , 25 , 25000],
+    ['Misha' , 20 , 40000],
+    ['Vova' , 32 , 60000]
+]
+
+df = pd.DataFrame(employees , columns=['name' ,'age' , 'salary'])
+print(df)
